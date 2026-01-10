@@ -32,14 +32,11 @@
 ## ⚠️ 진행 중인 작업
 
 ### 1. GitHub 푸시
-- **상태**: ⚠️ 대기 중
-- **원격 저장소**: `https://github.com/suchulkim21/mnps-test.git`
+- **상태**: ✅ 완료
+- **원격 저장소**: `https://github.com/suchulkim21/kpsylab-portal.git`
 - **로컬 브랜치**: `master`
-- **문제**: 저장소를 찾을 수 없음 (`Repository not found`)
-- **해결 필요**: 
-  - GitHub에서 저장소 존재 여부 확인
-  - 저장소가 없다면 생성
-  - 또는 올바른 저장소 URL 확인
+- **방법**: VS Code "Publish Branch" 기능 사용
+- **결과**: 저장소 생성 및 코드 푸시 완료
 
 ### 2. Vercel 환경 변수 설정
 - **상태**: ⚠️ 대기 중
@@ -98,7 +95,8 @@
 ## 🎯 최종 목표
 
 - [x] 코드가 로컬에 커밋됨
-- [ ] 코드가 GitHub에 푸시됨
+- [x] 코드가 GitHub에 푸시됨 ✅ (`kpsylab-portal` 저장소)
+- [ ] Vercel 환경 변수 설정 (다음 단계)
 - [ ] Vercel이 자동으로 배포함
 - [ ] https://www.kpsylab.com 에서 정상 동작
 - [ ] 모든 환경 변수가 올바르게 설정됨

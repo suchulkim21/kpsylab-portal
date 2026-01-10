@@ -11,13 +11,11 @@
 - [x] 프로젝트명 변경 완료 (portal → kpsylab)
 - [x] 로컬 빌드 테스트 ✅ (성공)
 - [x] 코드 커밋 완료 ✅ (194개 파일, 25,023줄 추가)
-- [ ] GitHub 푸시 ⚠️ (저장소 생성 필요)
-  - 원격 저장소: `https://github.com/suchulkim21/mnps-test.git`
-  - 브랜치: `master` (로컬)
-  - 상태: 저장소를 찾을 수 없음 (`Repository not found`)
-  - **해결**: GitHub에서 저장소 생성 필요
-  - **가이드**: `GITHUB_UPLOAD_GUIDE.md` 참조
-- [ ] Vercel 환경 변수 설정 ⚠️ (대시보드에서 수동 설정 필요)
+- [x] GitHub 푸시 ✅ (완료)
+  - 원격 저장소: `https://github.com/suchulkim21/kpsylab-portal.git`
+  - 브랜치: `master` (또는 자동 생성된 브랜치)
+  - 방법: VS Code "Publish Branch" 사용
+- [ ] Vercel 환경 변수 설정 ⚡ (다음 단계)
 
 ---
 
@@ -46,37 +44,19 @@ git commit -m "Supabase 마이그레이션 완료 및 배포 준비"
 
 ### Step 3: GitHub 푸시
 
-**현재 상태**: 원격 저장소가 설정되지 않았거나 접근할 수 없습니다.
+**상태**: ✅ 완료 (VS Code "Publish Branch" 사용)
 
-#### 3-1. GitHub 저장소 확인/생성
+#### 3-1. 완료된 작업
 
-1. GitHub에서 저장소 확인: https://github.com/suchulkim21/mnps-test
-2. 저장소가 없다면 생성:
-   - GitHub → New Repository
-   - Name: `mnps-test`
-   - Private 또는 Public 설정
-   - README 파일 생성하지 않기 (이미 코드가 있음)
+- ✅ GitHub 저장소 생성: `kpsylab-portal`
+- ✅ 원격 저장소 URL: `https://github.com/suchulkim21/kpsylab-portal.git`
+- ✅ 코드 푸시 완료
 
-#### 3-2. 원격 저장소 연결 및 푸시
+#### 3-2. 확인 방법
 
-```bash
-# 현재 브랜치 확인 (master 사용 중)
-git branch
-
-# 원격 저장소 설정 (아직 설정되지 않은 경우)
-git remote add origin https://github.com/suchulkim21/mnps-test.git
-
-# 원격 저장소 확인
-git remote -v
-
-# 푸시 시도 (master 브랜치)
-git push -u origin master
-
-# 만약 원격 저장소가 main 브랜치를 사용한다면:
-git push -u origin master:main
-```
-
-**참고**: 저장소가 비어있고 master/main 브랜치가 없다면, 첫 푸시 시 브랜치가 자동 생성됩니다.
+GitHub에서 확인:
+- 저장소: https://github.com/suchulkim21/kpsylab-portal
+- 모든 파일이 올바르게 업로드되었는지 확인
 
 ---
 
@@ -89,7 +69,7 @@ git push -u origin master:main
 1. https://vercel.com/dashboard 접속 및 로그인
 2. 프로젝트 선택:
    - 기존 프로젝트가 있다면: `kpsylab.com` 또는 관련 프로젝트 선택
-   - 없다면: **Add New Project** 클릭하여 `suchulkim21/mnps-test` 저장소 연결
+   - 없다면: **Add New Project** 클릭하여 `suchulkim21/kpsylab-portal` 저장소 연결
 
 #### 4-2. Root Directory 설정 (중요!)
 
@@ -140,6 +120,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 - Supabase 마이그레이션: **완료**
 - 로컬 빌드 테스트: **성공** (Exit code: 0)
 - 코드 커밋: **완료** (커밋 해시: `a09f050`, 194개 파일)
+- GitHub 푸시: **완료** (`kpsylab-portal` 저장소)
 
 ### 즉시 실행 가능한 작업 (오늘 중)
 
@@ -151,18 +132,20 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 **액션**: `NEXT_STEPS.md` 파일 참조
 
-#### 2. GitHub 저장소 확인/생성 (우선순위: 높음) ⚡
-**예상 소요 시간**: 5-10분
-- 저장소 URL: `https://github.com/suchulkim21/mnps-test.git` (설정됨)
-- 문제: 저장소를 찾을 수 없음 (`Repository not found`)
-- 해결: GitHub에서 저장소 존재 여부 확인 후 생성 또는 URL 수정
+#### 2. GitHub 저장소 확인/생성 ✅ (완료)
+- 저장소 URL: `https://github.com/suchulkim21/kpsylab-portal.git`
+- 방법: VS Code "Publish Branch" 기능 사용
+- 저장소 생성 및 푸시 완료
 
 ### 다음 단계
-1. **Vercel 환경 변수 설정** (지금 바로 가능)
-2. **GitHub 저장소 확인 및 푸시** (저장소 준비 후)
-3. **자동 배포 확인** (푸시 후 Vercel이 자동 처리)
+1. **Vercel 환경 변수 설정** ⚡ (즉시 실행 가능)
+   - 저장소: `https://github.com/suchulkim21/kpsylab-portal.git`
+   - Root Directory: `portal` (중요!)
+   - 필수 환경 변수: Supabase 키, SESSION_SECRET 등
+2. **Vercel 프로젝트 연결** (GitHub 저장소 연결)
+3. **자동 배포 확인** (Vercel이 자동으로 빌드/배포)
 
-**자세한 가이드**: `NEXT_STEPS.md` 파일 참조
+**자세한 가이드**: `DEPLOY_CHECKLIST.md` Step 4 참조
 
 ---
 

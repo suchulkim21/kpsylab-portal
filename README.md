@@ -90,8 +90,12 @@ npm start
 
 ## 📚 문서
 
+- [배포 체크리스트](./DEPLOY_CHECKLIST.md) - 배포 전 확인사항
+- [배포 단계](./DEPLOYMENT_STEPS.md) - 상세 배포 가이드
+- [다음 단계](./NEXT_STEPS.md) - CEO 의사결정 가이드
+- [상태 보고서](./STATUS_REPORT.md) - 프로젝트 현재 상태
 - [Supabase 마이그레이션 가이드](./SUPABASE_MIGRATION_GUIDE.md) - SQLite에서 Supabase로 마이그레이션
-- [Vercel 배포 가이드](../VERCEL_DEPLOYMENT_GUIDE.md) - 프로덕션 배포 가이드
+- [Vercel 프로젝트 설정](./VERCEL_PROJECT_SETUP.md) - Vercel 배포 가이드
 - [관리자 가이드](./admin/ADMIN_GUIDE.md) - 관리자 기능 사용법
 
 ---
@@ -171,3 +175,10 @@ Private Project - KPSY LAB
 ## 👥 개발팀
 
 KPSY LAB Team
+
+---
+
+## 🔗 링크
+
+- **GitHub 저장소**: https://github.com/suchulkim21/kpsylab-portal
+- **프로덕션 사이트**: https://www.kpsylab.com (예정)
