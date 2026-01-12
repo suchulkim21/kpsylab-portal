@@ -13,9 +13,12 @@
 - [x] 코드 커밋 완료 ✅ (194개 파일, 25,023줄 추가)
 - [x] GitHub 푸시 ✅ (완료)
   - 원격 저장소: `https://github.com/suchulkim21/kpsylab-portal.git`
-  - 브랜치: `master` (또는 자동 생성된 브랜치)
-  - 방법: VS Code "Publish Branch" 사용
-- [ ] Vercel 환경 변수 설정 ⚡ (다음 단계)
+  - 브랜치: `main`
+  - 상태: 코드 푸시 완료
+- [ ] Vercel 프로젝트 생성 ⚡ (다음 단계)
+  - 새 프로젝트 생성 필요
+  - GitHub 저장소 연결: `suchulkim21/kpsylab-portal`
+- [ ] Vercel 환경 변수 설정 (프로젝트 생성 후)
 
 ---
 
@@ -56,29 +59,48 @@ git commit -m "Supabase 마이그레이션 완료 및 배포 준비"
 
 GitHub에서 확인:
 - 저장소: https://github.com/suchulkim21/kpsylab-portal
+- 브랜치: `main`
 - 모든 파일이 올바르게 업로드되었는지 확인
+- 커밋 히스토리 확인
 
 ---
 
-### Step 4: Vercel 환경 변수 설정
+### Step 4: Vercel 프로젝트 생성
 
-**⚠️ 필수**: 배포 전에 반드시 Vercel 대시보드에서 환경 변수를 설정해야 합니다!
+**⚠️ 필수**: Vercel에서 새 프로젝트를 생성하고 GitHub 저장소를 연결해야 합니다!
 
 #### 4-1. Vercel 대시보드 접속
 
 1. https://vercel.com/dashboard 접속 및 로그인
-2. 프로젝트 선택:
-   - 기존 프로젝트가 있다면: `kpsylab.com` 또는 관련 프로젝트 선택
-   - 없다면: **Add New Project** 클릭하여 `suchulkim21/kpsylab-portal` 저장소 연결
+2. **Add New Project** 버튼 클릭
 
-#### 4-2. Root Directory 설정 (중요!)
+#### 4-2. GitHub 저장소 선택
 
-1. Settings → General
-2. **Root Directory** 섹션 찾기
-3. `portal` 입력 (저장)
-4. **이 설정이 없으면 빌드가 실패합니다!**
+1. **Import Git Repository** 화면에서 GitHub 저장소 목록 확인
+2. `suchulkim21/kpsylab-portal` 저장소 찾기
+3. 저장소 옆의 **Import** 버튼 클릭
 
-#### 4-3. 환경 변수 추가
+#### 4-3. 프로젝트 설정
+
+- **Project Name**: `kpsylab-portal` (또는 원하는 이름)
+- **Framework Preset**: `Next.js` (자동 감지됨)
+- **Root Directory**: 프로젝트 구조에 따라 설정
+  - 루트에 직접 있는 경우: 설정 불필요 (기본값)
+  - 서브폴더에 있는 경우: 폴더명 입력 (예: `portal`)
+
+**상세 가이드**: `VERCEL_PROJECT_CREATE_GUIDE.md` 파일 참조
+
+---
+
+### Step 5: Vercel 환경 변수 설정
+
+**⚠️ 필수**: 배포 전에 반드시 Vercel 대시보드에서 환경 변수를 설정해야 합니다!
+
+#### 5-1. 환경 변수 섹션으로 이동
+
+프로젝트 설정 화면에서 **Environment Variables** 섹션 찾기
+
+#### 5-2. 환경 변수 추가
 
 Settings → Environment Variables → Add New
 
@@ -98,9 +120,25 @@ Settings → Environment Variables → Add New
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-#### 4-4. 환경 변수 확인
+#### 5-3. 환경 변수 확인
 
 모든 변수가 **Production**, **Preview**, **Development** 세 가지 환경에 모두 설정되어 있는지 확인하세요.
+
+---
+
+### Step 6: 프로젝트 배포
+
+#### 6-1. 배포 실행
+
+1. 모든 환경 변수 설정 확인 완료
+2. 화면 하단의 **Deploy** 버튼 클릭
+3. 배포 진행 상황 확인 (약 2-3분 소요)
+
+#### 6-2. 배포 확인
+
+1. 배포 완료 후 배포된 URL 확인
+2. 사이트 접속 테스트
+3. 정상 동작 확인
 
 ---
 
@@ -119,33 +157,41 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ### 완료된 작업 ✅
 - Supabase 마이그레이션: **완료**
 - 로컬 빌드 테스트: **성공** (Exit code: 0)
-- 코드 커밋: **완료** (커밋 해시: `a09f050`, 194개 파일)
-- GitHub 푸시: **완료** (`kpsylab-portal` 저장소)
+- 코드 커밋: **완료** (194개 파일)
+- GitHub 푸시: **완료** (`kpsylab-portal` 저장소, `main` 브랜치)
 
 ### 즉시 실행 가능한 작업 (오늘 중)
 
-#### 1. Vercel 환경 변수 설정 (우선순위: 매우 높음) ⚡
-**예상 소요 시간**: 10-15분
-- GitHub 저장소와 독립적으로 진행 가능
-- Vercel 대시보드에서 즉시 설정 가능
-- Supabase 키만 준비되면 됨
+#### 1. Vercel 프로젝트 생성 (우선순위: 매우 높음) ⚡
+**예상 소요 시간**: 15-20분
+- Vercel 대시보드에서 새 프로젝트 생성
+- GitHub 저장소 연결: `suchulkim21/kpsylab-portal`
+- 환경 변수 설정 (배포 전 필수!)
 
-**액션**: `NEXT_STEPS.md` 파일 참조
+**액션**: `VERCEL_PROJECT_CREATE_GUIDE.md` 파일 참조
 
-#### 2. GitHub 저장소 확인/생성 ✅ (완료)
+#### 2. GitHub 저장소 ✅ (완료)
 - 저장소 URL: `https://github.com/suchulkim21/kpsylab-portal.git`
-- 방법: VS Code "Publish Branch" 기능 사용
-- 저장소 생성 및 푸시 완료
+- 브랜치: `main`
+- 코드 푸시 완료
 
 ### 다음 단계
-1. **Vercel 환경 변수 설정** ⚡ (즉시 실행 가능)
-   - 저장소: `https://github.com/suchulkim21/kpsylab-portal.git`
-   - Root Directory: `portal` (중요!)
-   - 필수 환경 변수: Supabase 키, SESSION_SECRET 등
-2. **Vercel 프로젝트 연결** (GitHub 저장소 연결)
-3. **자동 배포 확인** (Vercel이 자동으로 빌드/배포)
+1. **Vercel 프로젝트 생성** ⚡ (즉시 실행 가능)
+   - Vercel 대시보드 → Add New Project
+   - GitHub 저장소 선택: `suchulkim21/kpsylab-portal`
+   - 프로젝트 설정 확인
 
-**자세한 가이드**: `DEPLOY_CHECKLIST.md` Step 4 참조
+2. **환경 변수 설정** (프로젝트 생성 후)
+   - Supabase 키 준비
+   - SESSION_SECRET 생성
+   - 모든 환경 변수 추가 (Production, Preview, Development)
+
+3. **프로젝트 배포**
+   - Deploy 버튼 클릭
+   - 배포 완료 대기 (약 2-3분)
+   - 배포된 URL 접속 테스트
+
+**자세한 가이드**: `VERCEL_PROJECT_CREATE_GUIDE.md` 파일 참조
 
 ---
 
