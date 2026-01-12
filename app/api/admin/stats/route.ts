@@ -2,9 +2,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { getUserById, getStatistics } from '@/lib/db/auth';
 import { jwtVerify } from 'jose';
-import sqlite3 from 'sqlite3';
-import path from 'path';
-import fs from 'fs';
+import { supabase } from '@/lib/db/supabase';
 
 export const dynamic = 'force-dynamic';
 
@@ -42,26 +40,16 @@ export async function GET() {
     // 통계 정보 수집
     const userStats = await getStatistics();
 
-    // 블로그 포스트 수 조회
-    const blogDbPath = path.join(process.cwd(), '..', 'mnps', 'mnps-service', 'blog.db');
+    // 블로그 포스트 수 조회 (Supabase)
     let blogPostCount = 0;
-    if (fs.existsSync(blogDbPath)) {
-      const blogDb = await new Promise<sqlite3.Database>((resolve, reject) => {
-        const db = new sqlite3.Database(blogDbPath, (err) => {
-          if (err) reject(err);
-          else resolve(db);
-        });
-      });
+    if (supabase) {
+      const { count, error } = await supabase
+        .from('blog_posts')
+        .select('*', { count: 'exact', head: true });
 
-      const posts = await new Promise<any[]>((resolve, reject) => {
-        blogDb.all('SELECT COUNT(*) as count FROM posts', (err, rows) => {
-          if (err) reject(err);
-          else resolve(rows || []);
-        });
-      });
-
-      blogPostCount = posts[0]?.count || 0;
-      blogDb.close();
+      if (!error && count !== null) {
+        blogPostCount = count;
+      }
     }
 
     // 테스트 결과 수 조회 (localStorage 기반이므로 추정치)
