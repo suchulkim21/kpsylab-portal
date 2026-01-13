@@ -41,6 +41,12 @@ export async function GET(request: Request) {
     const { data: posts, error } = await query;
 
     if (error) {
+      // 테이블이 없는 경우 빈 배열 반환 (PGRST205, PGRST206 오류)
+      if (error.code === 'PGRST205' || error.code === 'PGRST206' || error.message?.includes('Could not find the table')) {
+        console.warn('블로그 포스트 테이블이 없습니다. 빈 배열을 반환합니다.');
+        return NextResponse.json({ success: true, posts: [] });
+      }
+      
       console.error('블로그 포스트 조회 실패:', error);
       return NextResponse.json(
         { success: false, error: 'Failed to fetch posts' },
