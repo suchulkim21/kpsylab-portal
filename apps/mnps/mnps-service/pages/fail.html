@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - 결제 실패</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        .btn {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h2 style="color: #ff3333;">결제에 실패했습니다.</h2>
+        <p id="error-msg">알 수 없는 오류가 발생했습니다.</p>
+        <button class="btn" onclick="goBack()">돌아가기</button>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('message');
+        const code = urlParams.get('code');
+
+        if (message) {
+            document.getElementById('error-msg').textContent = message + (code ? ` (${code})` : '');
+        }
+
+        function goBack() {
+            // Try to go back to result page if possible, or history back
+            if (document.referrer && document.referrer.includes('result.html')) {
+                window.location.href = document.referrer;
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+</body>
+
+</html>

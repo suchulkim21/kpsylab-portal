@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - 시스템 복구</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            margin: 0;
+        }
+
+        .container {
+            padding: 20px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            max-width: 400px;
+        }
+
+        button {
+            background: #ff0055;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>시스템 복구 도구</h1>
+        <p>이전 버전의 시스템 캐시가 남아있어<br>화면이 보이지 않는 문제입니다.</p>
+        <p id="status">아래 버튼을 눌러 복구하세요.</p>
+        <button onclick="fixSystem()">캐시 삭제 및 복구 실행</button>
+    </div>
+
+    <script>
+        async function fixSystem() {
+            const status = document.getElementById('status');
+            status.innerText = "서비스 워커 제거 중...";
+
+            try {
+                if ('serviceWorker' in navigator) {
+                    const registrations = await navigator.serviceWorker.getRegistrations();
+                    for (let registration of registrations) {
+                        await registration.unregister();
+                        console.log('Service Worker unregistered:', registration);
+                    }
+                }
+
+                status.innerText = "캐시 스토리지 삭제 중...";
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    for (let key of keys) {
+                        await caches.delete(key);
+                        console.log('Cache deleted:', key);
+                    }
+                }
+
+                status.innerText = "복구 완료! 3초 후 메인으로 이동합니다.";
+                setTimeout(() => {
+                    window.location.href = '/index.html?t=' + new Date().getTime();
+                }, 3000);
+
+            } catch (error) {
+                console.error(error);
+                status.innerText = "오류 발생: " + error.message;
+            }
+        }
+    </script>
+</body>
+
+</html>

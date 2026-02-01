@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS Blog - Article</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/blog.css">
+</head>
+
+<body>
+    <!-- Navbar (Static) -->
+    <nav class="navbar">
+        <a href="/index.html" class="nav-logo">MNPS</a>
+        <div class="nav-links">
+            <a href="/blog/index.html" class="nav-link">블로그</a>
+            <a href="/blog/write.html" class="nav-link">글쓰기</a>
+            <div class="auth-buttons">
+                <a href="/login.html" class="nav-btn btn-login">로그인</a>
+                <a href="/signup.html" class="nav-btn btn-signup">회원가입</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Background -->
+    <div id="particles-js"></div>
+
+    <!-- Scrollable Frame Content -->
+    <div class="frame-content">
+        <div class="frame-inner">
+
+            <div class="blog-article-layout">
+                <!-- Main Content -->
+                <main class="article-content-wrapper" id="article-main">
+                    <header class="article-header">
+                        <div class="article-meta" id="article-meta"></div>
+                        <h1 class="article-title" id="article-title">Loading...</h1>
+                    </header>
+                    <div id="article-image-container"></div>
+                    <div class="article-body" id="article-body"></div>
+                </main>
+
+                <!-- Sidebar -->
+                <aside class="blog-sidebar">
+                    <!-- Search Widget -->
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">검색 (Search)</h3>
+                        <form
+                            onsubmit="event.preventDefault(); location.href='index.html?q=' + encodeURIComponent(this.querySelector('input').value)">
+                            <div style="position: relative;">
+                                <input type="text" placeholder="검색어 입력..."
+                                    style="width: 100%; padding: 10px; padding-right: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #fff;">
+                                <button type="submit"
+                                    style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #888; cursor: pointer;">🔍</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="sidebar-widget">
+                        <h3 class="widget-title">최신 글 (Recent Posts)</h3>
+                        <ul class="recent-posts-list" id="recent-posts-list">
+                            <!-- JS Loaded -->
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/assets/particles.json', function () { });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+
+        async function loadArticle() {
+            if (!postId) {
+                alert('잘못된 접근입니다.');
+                location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/blog/posts/${postId}`);
+                const result = await response.json();
+
+                if (result.success) {
+                    const post = result.post;
+                    document.getElementById('article-title').textContent = post.title;
+                    document.getElementById('article-meta').innerHTML = `
+                        <span class="author">${post.author}</span>
+                        <span class="date">${post.date}</span>
+                    `;
+
+                    if (post.image) {
+                        const img = document.createElement('img');
+                        img.src = post.image;
+                        img.className = 'article-image';
+                        document.getElementById('article-image-container').appendChild(img);
+                    }
+
+                    const contentDiv = document.createElement('div');
+                    contentDiv.innerHTML = post.content;
+                    document.getElementById('article-body').appendChild(contentDiv);
+                } else {
+                    alert('게시글을 찾을 수 없습니다.');
+                }
+            } catch (error) { console.error(error); }
+        }
+
+        async function loadRecentPosts() {
+            try {
+                const response = await fetch('/api/blog/posts');
+                const result = await response.json();
+                if (result.success) {
+                    const list = document.getElementById('recent-posts-list');
+                    const posts = result.posts.slice(0, 10);
+                    posts.forEach(post => {
+                        if (post.id == postId) return;
+                        const li = document.createElement('li');
+                        li.className = 'recent-post-item';
+                        li.innerHTML = `<a href="article.html?id=${post.id}" class="recent-post-link">${post.title}</a>`;
+                        list.appendChild(li);
+                    });
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        loadArticle();
+        loadRecentPosts();
+    </script>
+</body>
+
+</html>

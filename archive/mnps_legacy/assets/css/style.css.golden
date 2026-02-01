@@ -1,0 +1,273 @@
+:root {
+    /* Colors */
+    --color-bg-primary: #0a0a0a;
+    --color-bg-secondary: #1a1a1a;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #a0a0a0;
+    --color-accent-primary: #00ff88;
+    /* Nephritis Green */
+    --color-accent-secondary: #ff0055;
+    /* Alert Red */
+    --color-border: #333333;
+
+    /* Typography */
+    --font-primary: 'Inter', sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+
+    /* Spacing */
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+a {
+    color: var(--color-accent-primary);
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+    font-family: var(--font-primary);
+}
+
+/* --- Global Fixed Navbar --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    height: 70px;
+    /* Fixed height for layout calculations */
+}
+
+.nav-logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: -1px;
+    white-space: nowrap;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: #fff;
+}
+
+.nav-btn {
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-login {
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin-right: 5px;
+}
+
+.btn-login:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-signup {
+    background: #fff;
+    color: #000;
+}
+
+.btn-signup:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+/* Auth Buttons Container */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+/* Mobile Responsive Navbar */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 5%;
+        height: auto;
+        /* Allow height to grow */
+        min-height: 60px;
+        flex-wrap: wrap;
+        /* Allow wrapping */
+    }
+
+    .nav-links {
+        gap: 10px;
+        width: 100%;
+        /* Full width on mobile */
+        justify-content: center;
+        /* Center items */
+        margin-top: 10px;
+        /* Spacing */
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+        display: block;
+        /* Show links on mobile */
+    }
+
+    .nav-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, #111111 0%, #000000 100%);
+    /* Background moved here */
+    z-index: 0;
+    /* Behind content */
+    top: 0;
+    left: 0;
+}
+
+/* Landing Page Styles */
+.landing-container {
+    position: relative;
+    z-index: 1;
+    /* Above particles */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    background: transparent;
+    /* Make transparent to show particles */
+    padding: 20px;
+    padding-top: 80px;
+    /* Offset for fixed navbar */
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: -2px;
+    background: linear-gradient(45deg, #fff, #666);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 2s ease-out;
+}
+
+.slogan {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-xl);
+    max-width: 600px;
+    opacity: 0;
+    animation: slideUp 1s ease-out 0.5s forwards;
+}
+
+.cta-button {
+    background-color: var(--color-accent-primary);
+    color: #000;
+    border: none;
+    padding: 16px 48px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0;
+    animation: slideUp 1s ease-out 1s forwards;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

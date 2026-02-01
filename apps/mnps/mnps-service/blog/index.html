@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS Blog - 심연의 기록</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/blog.css">
+</head>
+
+<body>
+    <!-- Navbar (Static in Flex Frame) -->
+    <nav class="navbar">
+        <a href="/index.html" class="nav-logo">MNPS</a>
+        <div class="nav-links">
+            <a href="/blog/index.html" class="nav-link" style="color: #fff;">블로그</a>
+            <a href="/blog/write.html" class="nav-link">글쓰기</a>
+            <div class="auth-buttons">
+                <a href="/login.html" class="nav-btn btn-login">로그인</a>
+                <a href="/signup.html" class="nav-btn btn-signup">회원가입</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Background -->
+    <div id="particles-js"></div>
+
+    <!-- Scrollable Frame Content -->
+    <div class="frame-content">
+        <div class="frame-inner">
+            <header class="blog-header">
+                <h1 class="blog-title">MNPS INSIGHTS</h1>
+                <p class="blog-subtitle">인간 본성의 어두운 면에 대한 심층 분석과 기록</p>
+            </header>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <form id="search-form" onsubmit="handleSearch(event)">
+                    <input type="text" id="search-input" class="search-input"
+                        placeholder="관심 있는 키워드를 검색하세요... (예: 나르시시즘)">
+                    <button type="submit" class="search-btn">🔍</button>
+                </form>
+            </div>
+
+            <div class="blog-grid" id="blog-posts-container">
+                <div style="grid-column: 1/-1; text-align: center; color: #666; padding: 50px;">
+                    데이터를 불러오는 중...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/assets/particles.json', function () {
+            console.log('particles.js loaded');
+        });
+
+        async function loadPosts(searchQuery = '') {
+            try {
+                let url = '/api/blog/posts';
+                if (searchQuery) {
+                    url += `?q=${encodeURIComponent(searchQuery)}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+                const container = document.getElementById('blog-posts-container');
+                container.innerHTML = '';
+
+                if (data.success && data.posts.length > 0) {
+                    data.posts.forEach(post => {
+                        const card = document.createElement('div');
+                        card.className = 'blog-card';
+                        card.onclick = () => location.href = `article.html?id=${post.id}`;
+                        const imgUrl = post.image || 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=800&auto=format&fit=crop';
+                        card.innerHTML = `
+                            <img src="${imgUrl}" alt="${post.title}" class="blog-card-img">
+                            <div class="blog-card-content">
+                                <div class="blog-card-meta">
+                                    <span>${post.author || 'MNPS Editor'}</span>
+                                    <span>${post.date}</span>
+                                </div>
+                                <h3 class="blog-card-title">${post.title}</h3>
+                                <p class="blog-card-excerpt">${post.content.replace(/<[^>]*>/g, '').substring(0, 100)}...</p>
+                                <div class="blog-card-footer">Read More →</div>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #888; padding: 50px;">
+                        '${searchQuery || ''}'에 대한 검색 결과가 없습니다.
+                    </div>`;
+                }
+            } catch (error) {
+                console.error('Error loading posts:', error);
+            }
+        }
+
+        function handleSearch(event) {
+            event.preventDefault();
+            const query = document.getElementById('search-input').value;
+            loadPosts(query);
+            // Update URL without reload
+            const newUrl = query ? `?q=${encodeURIComponent(query)}` : window.location.pathname;
+            window.history.pushState({ path: newUrl }, '', newUrl);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const query = urlParams.get('q');
+            if (query) {
+                document.getElementById('search-input').value = query;
+                loadPosts(query);
+            } else {
+                loadPosts();
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - 결제 처리 중</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: sans-serif;
+            text-align: center;
+            margin: 0;
+        }
+
+        .loader {
+            border: 4px solid #333;
+            border-top: 4px solid #00ff88;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .refund-link {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .refund-link a {
+            color: #888;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .refund-link a:hover {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="loader"></div>
+        <h2>결제를 확인하고 있습니다...</h2>
+        <p>잠시만 기다려주세요.</p>
+    </div>
+
+    <div class="refund-link">
+        결제에 문제가 있나요? <a href="support.html#refund">환불 신청하기</a>
+    </div>
+
+    <script>
+        async function confirmPayment() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const resultId = urlParams.get('id');
+            const paymentKey = urlParams.get('paymentKey');
+            const orderId = urlParams.get('orderId');
+            const amount = urlParams.get('amount');
+
+            if (!resultId) {
+                alert('잘못된 접근입니다.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                // Call server to confirm payment and update DB
+                const response = await fetch('/api/payments/confirm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ resultId: resultId, paymentKey, orderId, amount })
+                });
+
+                const json = await response.json();
+
+                if (json.success) {
+                    alert('프리미엄 리포트가 해제되었습니다.');
+                    window.location.href = `result.html?id=${resultId}`;
+                } else {
+                    throw new Error(json.error || '처리 실패');
+                }
+
+            } catch (error) {
+                console.error('Payment confirmation failed:', error);
+                alert('결제 확인 중 오류가 발생했습니다: ' + error.message);
+                window.location.href = `result.html?id=${resultId}`;
+            }
+        }
+
+        confirmPayment();
+    </script>
+</body>
+
+</html>

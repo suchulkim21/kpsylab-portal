@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - 서비스 소개</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        /* About Page Specific Styles */
+        body {
+            background-color: #111;
+            color: #ccc;
+            font-family: 'Pretendard', sans-serif;
+            line-height: 1.7;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 20px 100px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 4rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--color-accent-primary);
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            word-break: keep-all;
+            text-align: justify;
+        }
+
+        .lead {
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent-primary);
+        }
+
+        .feature-title {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-accent-primary);
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 0.95rem;
+            color: #aaa;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .theory-section {
+            background: rgba(20, 20, 20, 0.5);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 20px;
+        }
+
+        .theory-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .theory-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+            color: #bbb;
+        }
+
+        .theory-list li::before {
+            content: "•";
+            color: var(--color-accent-primary);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">MNPS</a>
+        <div class="nav-links">
+            <a href="about.html" class="nav-link active">서비스 소개</a>
+            <a href="terms.html" class="nav-link">이용약관</a>
+            <a href="support.html" class="nav-link">고객센터</a>
+            <a href="blog/index.html" class="nav-link">블로그</a>
+        </div>
+    </nav>
+
+    <div class="about-container">
+        <h1>MNPS 서비스 소개</h1>
+
+        <p class="lead">
+            MNPS(Multidimensional Nature Profiling System)는 당신의 잠재된 본성을 데이터로 시각화하고,<br>
+            이를 실질적인 강점으로 전환하는 <strong>심층 성향 분석 플랫폼</strong>입니다.<br>
+            다크 테트라드(Dark Tetrad) 이론을 기반으로 당신의 내면을 과학적으로 탐구합니다.
+        </p>
+
+        <h2>핵심 기능</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <span class="feature-title">정밀 분석 엔진 (Precision Engine)</span>
+                <p class="feature-desc">
+                    최신 심리학 이론인 '다크 테트라드'를 기반으로 설계된 독자 알고리즘이
+                    사용자의 무의식적 반응 패턴을 정밀하게 분석합니다.
+                </p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-title">다차원 시각화 (Visualization)</span>
+                <p class="feature-desc">
+                    8각형 레이더 차트와 상세 지표 그래프를 통해,
+                    눈에 보이지 않는 복잡한 성향을 직관적인 데이터로 시각화하여 제시합니다.
+                </p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-title">심층 리포트 (Insight Report)</span>
+                <p class="feature-desc">
+                    단순한 진단을 넘어, 분석된 성향을 커리어와 인간관계에서
+                    어떻게 활용할지 구체적인 전략(Shadow Mastery)을 제시합니다.
+                </p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-title">데이터 보안 (Secure & Private)</span>
+                <p class="feature-desc">
+                    사용자의 모든 응답 데이터는 철저하게 암호화되어 관리되며,
+                    개인을 식별할 수 있는 민감한 정보는 다루지 않습니다.
+                </p>
+            </div>
+        </div>
+
+        <h2>이론적 배경</h2>
+        <p>
+            MNPS는 현대 성격 심리학에서 주목받는 <strong>'다크 테트라드(Dark Tetrad)'</strong> 모델을
+            기반으로 자체 개발되었습니다.
+        </p>
+
+        <div class="theory-section">
+            <h3 style="color: var(--color-accent-primary);">과학적 설계 기준</h3>
+            <p>
+                본 서비스의 분석 문항과 알고리즘은 신뢰도 높은 학술적 척도를 참조하여 재구성되었습니다.
+            </p>
+            <ul class="theory-list">
+                <li><strong>SD3 (Short Dark Triad):</strong> Jones & Paulhus (2014)의 표준 척도 활용</li>
+                <li><strong>Dirty Dozen:</strong> Jonason & Webster (2010)의 간편 측정 모델 참조</li>
+                <li><strong>VAD 척도:</strong> 일상적 가학성(Everyday Sadism) 측정 지표 반영</li>
+            </ul>
+        </div>
+
+        <div class="theory-section">
+            <h3 style="color: var(--color-accent-primary);">분석 정확도 향상</h3>
+            <p>
+                자기보고식 검사의 한계를 극복하기 위해 다각도의 검증 로직을 탑재했습니다.
+            </p>
+            <ul class="theory-list">
+                <li><strong>패턴 감지:</strong> 무작위 응답이나 불성실한 답변을 식별하는 필터링 알고리즘</li>
+                <li><strong>교차 검증:</strong> 유사 질문에 대한 일관성을 분석하여 결과의 신뢰도 확보</li>
+                <li><strong>데이터 정규화:</strong> 한국인의 사회·문화적 특성을 반영한 데이터 표준화 적용</li>
+            </ul>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 0.9rem; color: #888; text-align: center;">
+            * MNPS는 임상적 진단 도구가 아니며, 자기 이해와 성찰을 돕기 위한 심리학적 가이드를 제공합니다.
+        </p>
+    </div>
+
+    <script src="../assets/js/navbar.js"></script>
+</body>
+
+</html>

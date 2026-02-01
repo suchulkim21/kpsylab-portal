@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    .admin-container {
+    padding: 100px 5% 50px;
+    min-height: 100vh;
+    background-color: var(--color-bg-primary);
+    }
+
+    .dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    }
+
+    .dashboard-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: #fff;
+    }
+
+    .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+    }
+
+    .stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    }
+
+    .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-accent-primary);
+    margin-bottom: 5px;
+    }
+
+    .stat-label {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    }
+
+    .charts-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+    }
+
+    .chart-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 768px) {
+    .charts-container {
+    grid-template-columns: 1fr;
+    }
+    }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">MNPS Admin</a>
+        <div class="nav-links">
+            <a href="#" class="nav-link" id="logout-btn">로그아웃</a>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <span style="color: var(--color-text-secondary);">Welcome, Administrator</span>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="dau">0</div>
+                <div class="stat-label">Daily Active Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-tests">0</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="revenue">₩0</div>
+                <div class="stat-label">Total Revenue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="conversion">0%</div>
+                <div class="stat-label">Conversion Rate</div>
+            </div>
+        </div>
+
+        <div class="charts-container">
+            <div class="chart-box">
+                <canvas id="trendChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <canvas id="traitChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/admin/stats');
+                const data = await response.json();
+
+                if (data.success) {
+                    const stats = data.stats;
+
+                    // Update Cards
+                    document.getElementById('dau').textContent = stats.dau || 0;
+                    document.getElementById('total-tests').textContent = stats.totalTests || 0;
+                    document.getElementById('revenue').textContent = `₩${(stats.totalRevenue || 0).toLocaleString()}`;
+                    document.getElementById('conversion').textContent = `${stats.conversionRate}%`;
+
+                    // Trend Chart
+                    const ctxTrend = document.getElementById('trendChart').getContext('2d');
+                    new Chart(ctxTrend, {
+                        type: 'line',
+                        data: {
+                            labels: stats.dailyTrend.map(d => d.date),
+                            datasets: [{
+                                label: 'Daily Tests',
+                                data: stats.dailyTrend.map(d => d.count),
+                                borderColor: '#00ff88',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { labels: { color: '#fff' } },
+                                title: { display: true, text: 'Daily Traffic', color: '#fff' }
+                            },
+                            scales: {
+                                y: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                                x: { ticks: { color: '#aaa' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                            }
+                        }
+                    });
+
+                    // Trait Chart
+                    const ctxTrait = document.getElementById('traitChart').getContext('2d');
+                    new Chart(ctxTrait, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Machiavellianism', 'Narcissism', 'Psychopathy', 'Sadism'],
+                            datasets: [{
+                                label: 'Average Scores',
+                                data: [
+                                    stats.averages.avgM,
+                                    stats.averages.avgN,
+                                    stats.averages.avgP,
+                                    stats.averages.avgS
+                                ],
+                                backgroundColor: 'rgba(255, 0, 85, 0.2)',
+                                borderColor: '#ff0055',
+                                pointBackgroundColor: '#ff0055'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { labels: { color: '#fff' } },
+                                title: { display: true, text: 'Trait Distribution', color: '#fff' }
+                            },
+                            scales: {
+                                r: {
+                                    grid: { color: 'rgba(255,255,255,0.1)' },
+                                    pointLabels: { color: '#fff' },
+                                    ticks: { display: false }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    alert('Failed to load stats: ' + data.error);
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        document.getElementById('logout-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = 'index.html';
+        });
+
+        loadStats();
+    </script>
+</body>
+
+</html>

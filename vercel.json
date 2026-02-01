@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd apps/portal && npm run build",
+  "outputDirectory": "apps/portal/.next",
+  "installCommand": "cd apps/portal && npm install",
+  "framework": "nextjs",
+  "rootDirectory": "apps/portal"
+}

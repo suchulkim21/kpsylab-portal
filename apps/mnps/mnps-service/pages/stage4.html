@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - Stage 4: Sadism</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        body {
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .stage-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 20px;
+            padding-top: calc(max(var(--nav-height-responsive), var(--nav-height-min)) + 20px);
+            background-color: var(--color-bg-primary);
+            align-items: center;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: var(--color-bg-secondary);
+            position: fixed;
+            top: max(var(--nav-height-responsive), var(--nav-height-min));
+            left: 0;
+            z-index: 100;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--color-accent-primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stage-header {
+            margin-top: 0;
+            margin-bottom: 2vh;
+            text-align: center;
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .stage-title {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .question-card {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 2vh;
+            min-height: 0;
+        }
+
+        .question-text {
+            font-size: clamp(1.2rem, 3.5vh, 1.8rem);
+            margin-bottom: 3vh;
+            line-height: 1.4;
+            color: #ffffff;
+            padding: 0 10px;
+            overflow-y: auto;
+            max-height: 30vh;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1.5vh;
+            width: 100%;
+            max-width: 600px;
+            flex: 0 0 auto;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding-bottom: 5px;
+        }
+
+        .option-btn {
+            background-color: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+            padding: 2.5vh 20px;
+            border-radius: 12px;
+            font-size: clamp(0.9rem, 2vh, 1.1rem);
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover {
+            border-color: var(--color-accent-primary);
+            background-color: rgba(0, 255, 136, 0.05);
+            transform: translateX(5px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-height: 700px) {
+            .question-text {
+                margin-bottom: 15px;
+            }
+
+            .option-btn {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="locked-view">
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">MNPS</a>
+        <div class="nav-links">
+            <a href="about.html" class="nav-link">서비스 소개</a>
+            <a href="terms.html" class="nav-link">이용약관</a>
+            <a href="support.html" class="nav-link">고객센터</a>
+            <div class="auth-buttons">
+                <a href="login.html" class="nav-btn btn-login">로그인</a>
+                <a href="signup.html" class="nav-btn btn-signup">회원가입</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <div class="stage-container">
+        <div class="stage-header">
+            <h2 class="stage-title">Stage 4 / 4 : Sadism</h2>
+        </div>
+
+        <div id="question-container">
+            <!-- Questions will be injected here -->
+        </div>
+    </div>
+
+    <script type="module">
+        import { QuestionManager } from '../modules/engine/question_manager.js';
+        import { questions } from '../modules/text/questions.js';
+
+        window.qm = new QuestionManager('sadism', questions.sadism, 'intermediate_result.html?next=result.html&currentStageId=sadism');
+    </script>
+    <script src="/assets/js/navbar.js"></script>
+</body>
+
+</html>

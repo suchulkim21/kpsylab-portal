@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - Dark Tetrad Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">MNPS</a>
+        <div class="nav-links">
+            <a href="about.html" class="nav-link">서비스 소개</a>
+            <a href="terms.html" class="nav-link">이용약관</a>
+            <a href="support.html" class="nav-link">고객센터</a>
+            <a href="blog/index.html" class="nav-link">블로그</a>
+            <div class="auth-buttons">
+                <a href="login.html" class="nav-btn btn-login">로그인</a>
+                <a href="signup.html" class="nav-btn btn-signup">회원가입</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="particles-js"></div>
+    <div class="landing-container">
+        <h1 class="logo">MNPS</h1>
+        <p class="slogan">내 안의 어둠을 과학적으로 탐구하다<br>Explore Your Inner Darkness Scientifically</p>
+        <a href="#" onclick="startNewAssessment(event)" class="cta-button">검사 시작하기</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": false },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.4, "width": 1 },
+                "move": { "enable": true, "speed": 2, "direction": "none", "random": false, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": true, "mode": "push" }, "resize": true },
+                "modes": { "repulse": { "distance": 200, "duration": 0.4 }, "push": { "particles_nb": 4 } }
+            },
+            "retina_detect": true
+        });
+
+        // Capture Referral Code
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCode = urlParams.get('ref');
+        if (refCode) {
+            localStorage.setItem('mnps_referrer', refCode);
+        }
+
+        function startNewAssessment(e) {
+            e.preventDefault();
+            const referrer = localStorage.getItem('mnps_referrer');
+            localStorage.clear();
+            sessionStorage.clear();
+            if (referrer) {
+                localStorage.setItem('mnps_referrer', referrer);
+            }
+            window.location.href = 'stage1.html';
+        }
+    </script>
+    <script src="/assets/js/navbar.js"></script>
+</body>
+
+</html>

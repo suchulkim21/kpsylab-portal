@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "workspaces": [
+    "apps/mnps",
+    "apps/second-genesis",
+    "apps/portal"
+  ]
+}

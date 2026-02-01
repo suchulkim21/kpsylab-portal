@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MNPS - 분석 결과</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        /* --- Premium Dark Tetrad Theme --- */
+        :root {
+            --color-bg-primary: #050505;
+            --color-bg-secondary: #0a0a0a;
+            --color-accent-primary: #00ff88;
+            --color-accent-secondary: #cc00ff;
+            /* Neon Purple */
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #888888;
+            --font-primary: 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(204, 0, 255, 0.03) 0%, transparent 40%);
+        }
+
+        /* Navbar Override */
+        .navbar {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-container {
+            padding: 120px 20px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header & Persona Card */
+        .result-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .result-title {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .persona-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .persona-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-accent-primary), transparent);
+            animation: scanline 3s infinite linear;
+        }
+
+        @keyframes scanline {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .archetype-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            opacity: 0;
+            /* Animated reveal */
+            transform: translateY(20px);
+        }
+
+        .archetype-slogan {
+            font-size: 1.2rem;
+            color: var(--color-accent-primary);
+            font-style: italic;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .archetype-desc {
+            font-size: 1.1rem;
+            color: #ccc;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+        }
+
+        /* Dominant Trait Feedback Section */
+        .dominant-feedback {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+            opacity: 0;
+            /* Animated */
+        }
+
+        .reaction-quote {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--color-accent-primary);
+        }
+
+        .long-desc-text {
+            color: #ccc;
+            font-size: 1rem;
+            line-height: 1.7;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        /* Grid Layout */
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        @media (min-width: 900px) {
+            .content-wrapper {
+                grid-template-columns: 1.2fr 0.8fr;
+            }
+        }
+
+        /* Charts Section */
+        .chart-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .chart-card {
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            height: 400px;
+            position: relative;
+        }
+
+        .chart-label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Info & Premium Section */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Visual Score Bars */
+        .score-bars-container {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .score-bar-item {
+            margin-bottom: 20px;
+        }
+
+        .score-bar-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .score-bar-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .score-bar-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease-out;
+        }
+
+        /* Rank Badge */
+        .rank-badge {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 0, 0, 0.05);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Premium Lock */
+        .premium-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #080808;
+        }
+
+        .premium-content {
+            padding: 30px;
+            filter: blur(10px);
+            opacity: 0.3;
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+
+        .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 10;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .lock-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .lock-desc {
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .btn-unlock {
+            background: var(--color-accent-primary);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(0, 255, 136, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 255, 136, 0);
+            }
+        }
+
+        .btn-unlock:hover {
+            transform: scale(1.05);
+            background: #fff;
+        }
+
+        .btn-viral {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-viral:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Animations Classes */
+        .reveal-1 {
+            animation: slideUpFade 0.8s forwards 0.2s;
+        }
+
+        .reveal-2 {
+            animation: slideUpFade 0.8s forwards 0.4s;
+        }
+
+        .reveal-3 {
+            animation: slideUpFade 0.8s forwards 0.6s;
+        }
+
+        .reveal-4 {
+            animation: slideUpFade 0.8s forwards 0.8s;
+        }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">MNPS</a>
+        <div class="nav-links">
+            <a href="about.html" class="nav-link">서비스 소개</a>
+            <a href="terms.html" class="nav-link">이용약관</a>
+            <a href="support.html" class="nav-link">고객센터</a>
+            <div class="auth-buttons">
+                <a href="login.html" class="nav-btn btn-login">로그인</a>
+                <a href="signup.html" class="nav-btn btn-signup">회원가입</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="result-container">
+        <!-- Header -->
+        <header class="result-header">
+            <p class="result-title">MNPS 심층 분석 보고서</p>
+
+            <!-- Persona Card -->
+            <div class="persona-card">
+                <h1 class="archetype-title" id="archetype-title">데이터 분석 중...</h1>
+                <p class="archetype-slogan" id="archetype-slogan">당신의 무의식 패턴을 정밀 분석하고 있습니다.</p>
+                <p class="archetype-desc" id="archetype-desc"></p>
+
+                <!-- Dominant Trait Feedback (New) -->
+                <div class="dominant-feedback" id="dominant-feedback">
+                    <p class="reaction-quote" id="dominant-reaction"></p>
+                    <div class="long-desc-text" id="dominant-long-desc"></div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Left Column: Charts -->
+            <div class="chart-section">
+                <div class="chart-card">
+                    <span class="chart-label">다크 테트라드 레이더 (Radar)</span>
+                    <canvas id="radarChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <span class="chart-label">성향별 상세 강도 (Intensity)</span>
+                    <canvas id="subTraitChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Right Column: Info & Premium -->
+            <div class="info-section">
+
+                <!-- Rank Badge (Renamed from Danger Level) -->
+                <div class="rank-badge">
+                    <label
+                        style="color: var(--color-accent-primary); display: block; margin-bottom: 5px; font-size: 0.9rem;">종합
+                        위험도 (Rank)</label>
+                    <span id="percentile-rank"
+                        style="color: #fff; font-size: 2.5rem; font-family: var(--font-heading); font-weight: 700;">-</span>
+                    <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">상위 %가 높을수록 해당 성향이 강하게 나타납니다.</p>
+                </div>
+
+                <!-- Visual Score Bars (New) -->
+                <div class="score-bars-container">
+                    <!-- Machiavellianism -->
+                    <div class="score-bar-item">
+                        <div class="score-bar-header">
+                            <span>마키아벨리즘 (Machiavellianism)</span>
+                            <span id="score-text-machiavellianism">0 / 50</span>
+                        </div>
+                        <div class="score-bar-track">
+                            <div id="bar-machiavellianism" class="score-bar-fill"
+                                style="width: 0%; background: #ff6384;"></div>
+                        </div>
+                    </div>
+                    <!-- Narcissism -->
+                    <div class="score-bar-item">
+                        <div class="score-bar-header">
+                            <span>나르시시즘 (Narcissism)</span>
+                            <span id="score-text-narcissism">0 / 50</span>
+                        </div>
+                        <div class="score-bar-track">
+                            <div id="bar-narcissism" class="score-bar-fill" style="width: 0%; background: #36a2eb;">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Psychopathy -->
+                    <div class="score-bar-item">
+                        <div class="score-bar-header">
+                            <span>사이코패시 (Psychopathy)</span>
+                            <span id="score-text-psychopathy">0 / 50</span>
+                        </div>
+                        <div class="score-bar-track">
+                            <div id="bar-psychopathy" class="score-bar-fill" style="width: 0%; background: #ffce56;">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sadism -->
+                    <div class="score-bar-item">
+                        <div class="score-bar-header">
+                            <span>가학성 (Sadism)</span>
+                            <span id="score-text-sadism">0 / 50</span>
+                        </div>
+                        <div class="score-bar-track">
+                            <div id="bar-sadism" class="score-bar-fill" style="width: 0%; background: #9966ff;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Restart Button -->
+                <button class="btn-viral" onclick="location.href='index.html'"
+                    style="width: 100%; margin-top: 20px; padding: 15px; font-size: 1rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);">
+                    다시 검사하기
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.1/kakao.min.js"></script>
+    <script type="module" src="/assets/js/result-script.js"></script>
+    <script src="../assets/js/navbar.js"></script>
+</body>
+
+</html>

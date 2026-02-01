@@ -1,0 +1,78 @@
+# Root .gitignore for monorepo
+# 각 서브 프로젝트의 .gitignore도 함께 적용됩니다.
+
+# Dependencies
+node_modules/
+/.pnp
+.pnp.*
+
+# Build outputs
+.next/
+/out/
+/dist/
+/build/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env*.local
+.env.production
+.env.development
+.env.test
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Database files (production databases should not be tracked)
+*.db-journal
+*.db-shm
+*.db-wal
+*.db.backup
+
+# Backups
+backups/
+*.sql
+*.bak
+
+# PM2
+.pm2/
+pm2.log
+
+# System files
+AGENT_TERMINATED.lock
+
+# Cache
+.cache/
+.parcel-cache/
+.npm/
+.eslintcache
+
+# Vercel
+.vercel
+
+# TypeScript
+next-env.d.ts
+
