@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/portal"
+  },
   "workspaces": [
     "apps/mnps",
     "apps/second-genesis",
